@@ -207,7 +207,7 @@ def extract_skills(text):
  'Problem Solving', 'Team Collaboration', 'Critical Thinking', 'Communication',
  'Time Management', 'Leadership', 'Adaptability', 'Creativity',
  'Developed', 'Managed', 'Analyzed', 'Designed', 'Implemented',
- 'Led', 'Created', 'Optimized', 'Researched', 'Coordinated']
+ 'Led', 'Created', 'Optimized', 'Researched', 'Coordinated'
 ]
     skills_found = [word for word in keywords if word.lower() in text.lower()]
     return ', '.join(skills_found)
