@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: var(--dark);
+        }
+
+        .admin-header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .dashboard-title {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .score-cell {
+            font-weight: bold;
+        }
+
+        .score-high {
+            color: var(--success);
+        }
+
+        .score-medium {
+            color: var(--warning);
+        }
+
+        .score-low {
+            color: var(--danger);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .active {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>Resume Analyzer Admin Dashboard</h1>
+        <div class="nav-links">
+            <a href="/admin/dashboard?admin_key=secret123" class="nav-link active">Dashboard</a>
+            <a href="/admin/resume-analytics?admin_key=secret123" class="nav-link">Resume Analytics</a>
+            <a href="/" class="nav-link">Back to Site</a>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <h2 class="dashboard-title">Overview</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Resumes</h3>
+                <div class="stat-value">{{ total_resumes }}</div>
+                <p>Resumes analyzed</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Matches</h3>
+                <div class="stat-value">{{ total_matches }}</div>
+                <p>Job matches analyzed</p>
+            </div>
+            <div class="stat-card">
+                <h3>ATS Checks</h3>
+                <div class="stat-value">{{ analytics['ats_checks'] }}</div>
+                <p>ATS analyses performed</p>
+            </div>
+            <div class="stat-card">
+                <h3>Match Checks</h3>
+                <div class="stat-value">{{ analytics['match_checks'] }}</div>
+                <p>Compatibility tests run</p>
+            </div>
+        </div>
+
+        <h3 class="section-title">Top Resumes by ATS Score</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Contact Info</th>
+                    <th>ATS Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resume in top_resumes %}
+                <tr>
+                    <td>{{ resume['filename'] }}</td>
+                    <td>{{ resume['contact_info'] }}</td>
+                    <td class="score-cell {% if resume['ats_score'] >= 80 %}score-high{% elif resume['ats_score'] >= 60 %}score-medium{% else %}score-low{% endif %}">
+                        {{ "%.1f"|format(resume['ats_score']) }}%
+                    </td>
+                    <td>{{ resume['upload_date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3 class="section-title">Recent Job Matches</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Resume</th>
+                    <th>Job Description</th>
+                    <th>Match Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in recent_matches %}
+                <tr>
+                    <td>{{ match['resume_filename'] }}</td>
+                    <td>{{ match['jd_filename'] }}</td>
+                    <td class="score-cell {% if match['match_score'] >= 70 %}score-high{% elif match['match_score'] >= 40 %}score-medium{% else %}score-low{% endif %}">
+                        {{ "%.1f"|format(match['match_score']) }}%
+                    </td>
+                    <td>{{ match['analysis_date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

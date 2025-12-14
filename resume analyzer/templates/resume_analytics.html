@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analytics</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                linear-gradient(rgba(0, 0, 50, 0.7), rgba(0, 0, 70, 0.7)),
+                url('https://cdn.pixabay.com/photo/2018/03/10/12/00/analytics-3214236_1280.jpg'); /* Replace with your own if needed */
+            background-size: cover;
+            background-position: center;
+            color: #f4f4f4;
+        }
+
+        .admin-header {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #00aaff;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .nav-links {
+            margin-top: 10px;
+        }
+
+        .nav-link {
+            color: #ccc;
+            margin: 0 15px;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: #00aaff;
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: #0077cc;
+            color: white;
+        }
+
+        .admin-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: rgba(0, 0, 50, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dashboard-title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
+
+        .data-table th {
+            background-color: #0077cc;
+            color: white;
+        }
+
+        .score-cell.score-high {
+            color: green;
+            font-weight: bold;
+        }
+
+        .score-cell.score-medium {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .score-cell.score-low {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>Resume Analyzer - Resume Analytics</h1>
+        <div class="nav-links">
+            <a href="/admin/dashboard?admin_key=secret123" class="nav-link">Dashboard</a>
+            <a href="/admin/resume-analytics?admin_key=secret123" class="nav-link active">Resume Analytics</a>
+            <a href="/" class="nav-link">Back to Site</a>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <h2 class="dashboard-title">All Resume Analyses</h2>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Contact Info</th>
+                    <th>ATS Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resume in resumes %}
+                <tr>
+                    <td>{{ resume['filename'] }}</td>
+                    <td>{{ resume['contact_info'] }}</td>
+                    <td class="score-cell {% if resume['ats_score'] >= 80 %}score-high{% elif resume['ats_score'] >= 60 %}score-medium{% else %}score-low{% endif %}">
+                        {{ "%.1f"|format(resume['ats_score']) }}%
+                    </td>
+                    <td>{{ resume['upload_date'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

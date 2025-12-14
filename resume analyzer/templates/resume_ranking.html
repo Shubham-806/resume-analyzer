@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Ranking</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: rgba(33, 37, 41, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            width: 92%;
+            text-align: center;
+        }
+
+        .file-label:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .file-name {
+            margin-top: 1rem;
+            font-style: italic;
+            color: #adb5bd;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background-color: var(--success);
+            color: var(--dark);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #3aa8d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .supported-formats {
+            font-size: 0.9rem;
+            color: #adb5bd;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .flash-error {
+            background-color: rgba(247, 37, 133, 0.2);
+            border: 1px solid #f72585;
+            color: #f72585;
+        }
+
+        .flash-success {
+            background-color: rgba(76, 201, 240, 0.2);
+            border: 1px solid #4cc9f0;
+            color: #4cc9f0;
+
+            .flash-messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: white;
+}
+
+.alert-error {
+    background-color: #f72585;
+}
+
+.alert-success {
+    background-color: #4cc9f0;
+}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Ranking</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+        <div class="form-container">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="resume" id="resume" class="file-input" accept=".pdf,.docx" required>
+                <label for="resume" class="file-label">Choose Resume File</label>
+                <div class="file-name" id="file-name">No file selected</div>
+                <button type="submit" class="submit-btn">Upload for Ranking</button>
+            </form>
+        </div>
+        
+        <div class="supported-formats">Supported formats: PDF and DOCX</div>
+        
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/" class="back-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('resume').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
+</body>
+</html>

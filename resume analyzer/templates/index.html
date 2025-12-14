@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer Pro</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #a8c0ff, #3f2b96);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Header styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header .admin-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background-color: #4cc9f0;
+            transition: all 0.3s ease;
+            margin-right: 65px;
+            
+        }
+
+        .header .admin-link:hover {
+            background-color: #3aa8d8;
+        }
+
+        /* Main content styles */
+        .main-content {
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding-top: 120px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-content .image {
+            position: relative;
+            flex: 1;
+        }
+
+        .main-content .image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 45px;
+        }
+
+        .main-content .heading {
+            position: absolute;
+            top: -80px;
+            left: 20px;
+            font-size: 42px;
+            font-weight: normal;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 45px;
+        }
+
+        .main-content .text {
+            flex: 1;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .main-content .get-started-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #4cc9f0;
+            color: #212529;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .main-content .get-started-button:hover {
+            background-color: #3aa8d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* SERVICES section styles */
+        .services {
+            padding: 60px 40px;
+            background: white;
+            color: #212529;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+        }
+
+        .services h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #4cc9f0;
+        }
+
+        .service-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .service-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #3f2b96;
+        }
+
+        .service-box p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
+
+        .service-box .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4cc9f0;
+            margin-bottom: 20px;
+        }
+
+        .service-box button {
+            background-color: #3f2b96;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .service-box button:hover {
+            background-color: #4cc9f0;
+            color: #212529;
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding-top: 100px;
+            }
+            
+            .main-content .heading {
+                position: static;
+                margin-bottom: 20px;
+                font-size: 32px;
+            }
+            
+            .service-box {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header section -->
+    <div class="header">
+        <div class="logo">ResumeAnalyzerPro</div>
+        <a href="/admin/dashboard" class="admin-link">Admin Dashboard</a>
+    </div>
+
+    <!-- Main content section -->
+    <div class="main-content">
+        <div class="image">
+            <img src="{{ url_for('static', filename='landingpage.png') }}" alt="Resume Analysis Illustration">
+            <h1 class="heading">YOUR CAREER COMPANION</h1>
+        </div>
+        <div class="text">
+            <p>ResumeAnalyzerPro helps you optimize your resume for Applicant Tracking Systems (ATS) and match it perfectly with job descriptions. Our advanced analysis tools provide actionable insights to improve your resume's effectiveness and increase your chances of landing interviews.</p>
+            <a href="#services" class="get-started-button">Explore Our Services</a>
+        </div>
+    </div>
+
+    <!-- SERVICES section -->
+    <div class="services" id="services">
+        <div class="services-container">
+            <h2>OUR SERVICES</h2>
+            <div class="service-boxes">
+                <div class="service-box">
+                    <h3>ATS Score Checker</h3>
+                    <p>Get your resume's ATS compatibility score and detailed feedback on how to improve its machine-readability.</p>
+                    <div class="price">FREE</div>
+                    <button onclick="window.location.href='/ats-checker'">Use Now</button>
+                </div>
+                <div class="service-box">
+                    <h3>Job Compatibility Test</h3>
+                    <p>Compare your resume against a specific job description to see how well you match the requirements.</p>
+                    <div class="price">FREE</div>
+                    <button onclick="window.location.href='/compatibility-test'">Test Now</button>
+                </div>
+                <div class="service-box">
+                    <h3>Resume Ranking</h3>
+                    <p>Upload your resume to our database and see how it ranks against others in your field.</p>
+                    <div class="price">FREE</div>
+                    <button onclick="window.location.href='/resume-ranking'">Upload Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer section -->
+    <div class="footer">
+        &copy; 2023 ResumeAnalyzerPro. All rights reserved.
+    </div>
+</body>
+
+</html>
