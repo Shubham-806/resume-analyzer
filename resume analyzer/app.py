@@ -15,14 +15,19 @@ app = Flask(__name__)
 app.secret_key = 'your_super_secret_key' 
 
 # Configure upload folder
-UPLOAD_FOLDER = 'uploads'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'docx'} 
 
 # Database setup
-DATABASE = 'resume_analyzer.db'
+DATABASE = os.path.join(BASE_DIR, 'resume_analyzer.db')
+
 
 def get_db():
     db = sqlite3.connect(DATABASE)
@@ -64,8 +69,16 @@ def init_db():
 init_db()
 
 # Download NLTK data
-nltk.download('stopwords')
-nltk.download('punkt')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
 
 # ================== UTILITY FUNCTIONS ==================
 def allowed_file(filename):
@@ -429,6 +442,8 @@ def resume_analytics():
 @app.route('/resume')
 def resume_analyzer():
     return render_template('resume.html')  # or whatever your resume analyzer page is called
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
 
