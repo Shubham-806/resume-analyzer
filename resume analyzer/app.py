@@ -197,7 +197,7 @@ def extract_name(text):
 
 def extract_skills(text):
     keywords = ['python', 'c++', 'c', 'web development', 'database', 'canva', 
-               'cyber security', 'design thinking', 'cisco', 'machine learning'['Python', 'Java', 'SQL', 'JavaScript', 'HTML', 'CSS', 'React', 'Node.js', 'Git', 'Docker',
+               'cyber security', 'design thinking', 'cisco', 'machine learning','Python', 'Java', 'SQL', 'JavaScript', 'HTML', 'CSS', 'React', 'Node.js', 'Git', 'Docker',
  'Kubernetes', 'REST API', 'AWS', 'Azure', 'TensorFlow', 'PyTorch', 'OpenAI API', 'Flask', 'Django', 'Bash',
  'Data Analysis', 'Data Visualization', 'Data Science', 'Machine Learning', 'Deep Learning',
  'NLP (Natural Language Processing)', 'Predictive Modeling', 'Data Mining', 'Big Data',
