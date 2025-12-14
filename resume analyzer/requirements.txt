@@ -1,5 +1,7 @@
 flask
 docx2txt
-openai
 python-docx
 pdfplumber
+PyMuPDF
+nltk
+werkzeug
